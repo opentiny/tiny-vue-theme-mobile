@@ -1,0 +1,37 @@
+{
+  "name": "@opentiny/vue-theme-mobile",
+  "version": "3.0.0",
+  "description": "@opentiny/vue-theme-mobile",
+  "main": "index.css",
+  "author": "Tiny Vue Team",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:theme": "gulp build --gulpfile build/gulp-dist.js",
+    "build": "npm run clean && npm run build:theme",
+    "build:fast": "npm run build && npm run release",
+    "release": "node build/release.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-less": "^4.0.1",
+    "rimraf": "^2.6.2"
+  },
+  "resolutions": {
+    "graceful-fs": "4.2.2"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

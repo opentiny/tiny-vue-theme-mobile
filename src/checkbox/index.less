@@ -1,0 +1,129 @@
+/**
+ * Copyright (c) 2022 - present TinyVue Authors.
+ * Copyright (c) 2022 - present Huawei Cloud Computing Technologies Co., Ltd.
+ *
+ * Use of this source code is governed by an MIT-style license.
+ *
+ * THE OPEN SOURCE SOFTWARE IN THIS PRODUCT IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL,
+ * BUT WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR
+ * A PARTICULAR PURPOSE. SEE THE APPLICABLE LICENSES FOR MORE DETAILS.
+ *
+ */
+@import '../mixins/common.less';
+@import '../mixins/checkbox.less';
+@import '../custom.less';
+
+@checkbox-prefix-cls: ~'@{css-prefix}mobile-checkbox';
+
+.@{checkbox-prefix-cls} {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 30px;
+  cursor: pointer;
+  .user-select(none);
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  &__input {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline: 0;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+  }
+
+  &__inner {
+    display: inline-block;
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: border-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46),
+      background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
+
+    &:hover {
+      border-color: #f36f64;
+    }
+
+    &::after {
+      box-sizing: content-box;
+      content: '';
+      border-width: 0.1em;
+      border-style: solid;
+      border-color: #fff;
+      border-left: 0;
+      border-top: 0;
+      height: 12px;
+      width: 8px;
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
+      transition: all 0.15s ease-in 0.05s;
+      transform-origin: center;
+      opacity: 0;
+    }
+  }
+
+  &__original {
+    opacity: 0;
+    outline: 0;
+    position: absolute;
+    margin: 0;
+    width: 0;
+    height: 0;
+    z-index: -1;
+  }
+
+  &__label {
+    display: inline-block;
+    padding-left: 16px;
+    line-height: 24px;
+    color: #333;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+
+  &.is-checked &__inner::after {
+    border-color: #f36f64;
+    transform: translate(-50%, -50%) rotate(45deg) scaleY(1);
+    opacity: 1;
+  }
+
+  &.is-indeterminate &__inner {
+    &::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: block;
+      width: 60%;
+      height: 1px;
+      background-color: #f36f64;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  &.is-checked &__inner,
+  &.is-indeterminate &__inner {
+    border-color: #f36f64;
+  }
+
+  &.is-disabled {
+    .checkbox-input-disabled(#999, #f5f5f5, #d9d9d9);
+  }
+}
