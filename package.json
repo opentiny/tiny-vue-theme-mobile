@@ -1,0 +1,73 @@
+{
+  "name": "@opentiny/vue-theme-mobile",
+  "version": "3.4.4",
+  "description": "@opentiny/vue-theme-mobile",
+  "main": "index.css",
+  "author": "Tiny Vue Team",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:theme": "gulp build --gulpfile build/gulp-dist.js",
+    "build": "npm run clean && npm run build:theme",
+    "build:fast": "npm run build && npm run release",
+    "release": "node build/release.js",
+    "prepare": "husky install",
+    "commit": "git-cz"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-less": "^4.0.1",
+    "rimraf": "^3.0.2",
+    "eslint": "^8.25.0",
+    "eslint-plugin-vue": "^9.6.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.1.0 ",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "prettier": "^2.2.1",
+    "babel-eslint": "^10.1.0",
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "glob": "^8.0.3",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,vue}": [
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "resolutions": {
+    "graceful-fs": "4.2.2"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

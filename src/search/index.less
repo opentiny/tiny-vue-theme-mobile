@@ -1,0 +1,172 @@
+/**
+* Copyright (c) 2022 - present TinyVue Authors.
+* Copyright (c) 2022 - present Huawei Cloud Computing Technologies Co., Ltd.
+*
+* Use of this source code is governed by an MIT-style license.
+*
+* THE OPEN SOURCE SOFTWARE IN THIS PRODUCT IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL,
+* BUT WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR
+* A PARTICULAR PURPOSE. SEE THE APPLICABLE LICENSES FOR MORE DETAILS.
+*
+*/
+
+@import '../mixins/input.less';
+@import '../mixins/common.less';
+@import '../mixins/hairline.less';
+@import '../custom.less';
+@import './vars.less';
+
+@search-prefix-cls: ~'@{css-prefix}mobile-search';
+
+.@{search-prefix-cls} {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  height: var(--ti-mobile-search-input-height, 44px);
+  line-height: var(--ti-mobile-search-input-height, 44px);
+  background-color: var(--ti-mobile-search-bgcolor, #fff);
+  outline: none;
+  .hairline('bottom', var(--ti-mobile-search-input-border-color, #ccc));
+
+  & &__line {
+    position: relative;
+    flex: auto;
+
+    &::after {
+      content: '';
+      width: 200%;
+      height: 200%;
+      background: var(--ti-mobile-search-bgcolor, #fff);
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: scale(0.5);
+      transform-origin: 0 0;
+    }
+  }
+
+  & &__box {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding-right: 30px;
+    padding-left: 30px;
+    z-index: 2;
+    opacity: 0;
+  }
+
+  & &__label {
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+    color: var(--ti-mobile-search-icon-color, #ccc);
+    background: var(--ti-mobile-search-bgcolor, #fff);
+    text-align: center;
+    z-index: 1;
+  }
+
+  & &__input {
+    box-sizing: content-box;
+    width: 100%;
+    height: 1.42857143em;
+    padding: 4px 0;
+    border: 0;
+    margin-left: 8px;
+    color: var(--ti-mobile-search-text-color, #333);
+    background: transparent;
+    font-size: 15px;
+    line-height: 1.42857143em;
+    caret-color: #f36164;
+    outline: none;
+    .placeholder(@color: var(--ti-mobile-search-close-icon-color, #999));
+
+    &:focus {
+      .placeholder(@color: #d9d9d9);
+    }
+  }
+
+  & &__icon {
+    text-decoration: none;
+    display: flex;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    .@{css-prefix}svg {
+      fill: var(--ti-mobile-search-icon-color, #ccc);
+      font-size: 16px;
+    }
+  }
+
+  & &__icon-label {
+    margin-right: 8px;
+
+    .@{css-prefix}svg {
+      fill: var(--ti-mobile-search-icon-color, #ccc);
+      font-size: 16px;
+    }
+  }
+
+  & &__close-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 8px;
+    line-height: 44px;
+    cursor: pointer;
+
+    .@{css-prefix}svg {
+      fill: var(--ti-mobile-search-close-icon-color, #999);
+      font-size: 16px;
+    }
+  }
+
+  & &__present {
+    display: none;
+    padding: 0 12px;
+    border-left: 1px solid var(--ti-mobile-search-input-border-color, #ccc);
+    color: var(--ti-mobile-search-text-color, #333);
+    background-color: var(--ti-mobile-search-bgcolor, #fff);
+    font-size: 16px;
+    line-height: 44px;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &.focus &__present {
+    display: block;
+  }
+
+  &.focus &__label {
+    display: none;
+  }
+
+  &.focus &__box {
+    opacity: 1;
+  }
+
+  & &__text {
+    color: var(--ti-mobile-search-text-color, #333);
+    font-size: 16px;
+  }
+
+  &.collapse &__input {
+    padding: 0;
+    width: 30px;
+    float: right;
+  }
+
+  .fade-enter-to {
+    opacity: 0;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+}
