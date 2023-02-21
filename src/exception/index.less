@@ -33,6 +33,17 @@
     background-size: 100%;
   }
 
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--ti-mobile-exception-content-width, 234px);
+  }
+
+  &__image {
+    width: var(--ti-mobile-exception-image-width, 200px);
+  }
+
   &__content-nodata {
     background-image: url(../images/nodata.png);
   }
@@ -58,14 +69,17 @@
   }
 
   &__content-message {
+    margin-top: 12px;
+
     button {
-      width: 160px;
-      margin-top: 32px;
+      min-width: var(--ti-mobile-exception-button-width, 136px);
+      height: var(--ti-mobile-exception-button-height, 42px);
+      margin-top: 24px;
     }
 
     .main-message {
-      color: var(--ti-mobile-exception-main-message-color, #666);
-      font-size: var(--ti-mobile-exception-main-message-font-size, 14px);
+      color: var(--ti-mobile-exception-main-message-color, #999);
+      font-size: var(--ti-mobile-exception-main-message-font-size, 13px);
       line-height: 1.5;
     }
 

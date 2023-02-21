@@ -23,7 +23,6 @@
   background: var(--ti-mobile-popover-bg-color);
   color: var(--ti-mobile-popover-text-color);
   border-radius: var(--ti-mobile-popover-border-radius);
-  padding: var(--ti-mobile-popover-padding-vertical) 0;
   z-index: 2000;
   line-height: 1.4;
   text-align: justify;
@@ -151,7 +150,9 @@
 
   .list-content {
     overflow-y: auto;
-
+    padding: var(--ti-mobile-popover-padding-vertical) 0;
+    box-sizing: border-box;
+    
     .list-view {
       display: flex;
       align-items: center;
