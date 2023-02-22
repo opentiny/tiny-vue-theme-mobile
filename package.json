@@ -1,15 +1,16 @@
 {
   "name": "@opentiny/vue-theme-mobile",
-  "version": "3.4.4",
+  "version": "3.5.0",
   "description": "@opentiny/vue-theme-mobile",
   "main": "index.css",
-  "author": "Tiny Vue Team",
+  "author": "tinyUI for Vue Team",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
     "build:theme": "gulp build --gulpfile build/gulp-dist.js",
     "build": "npm run clean && npm run build:theme",
     "build:fast": "npm run build && npm run release",
+    "lint": "eslint src/**/*{.vue,.js} --quiet",
     "release": "node build/release.js",
     "prepare": "husky install",
     "commit": "git-cz"
