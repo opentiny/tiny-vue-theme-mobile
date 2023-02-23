@@ -1,0 +1,20 @@
+{
+  "todo-tree.filtering.excludeGlobs": ["**/node_modules", "*.xml", "*.XML"],
+  "todo-tree.filtering.ignoreGitSubmodules": true,
+  "todo-tree.tree.showCountsInTree": true,
+  "todo-tree.highlights.customHighlight": {
+    "TINY-TODO": {
+      "foreground": "#FFEB38",
+      "type": "line"
+    },
+    "TODO": {
+      "foreground": "#FFEB38",
+      "type": "line"
+    }
+  },
+  "todo-tree.general.tags": ["TINY-TODO", "TODO"],
+  "todo-tree.general.statusBar": "total",
+  "[less]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

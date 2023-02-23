@@ -1,10 +1,14 @@
 export default {
-  'tiny-mobile-exception-bgcolor': '#fff',
-  'tiny-mobile-exception-view-size': '200px',
-  'tiny-mobile-exception-main-message-color': '#666',
-  'tiny-mobile-exception-main-message-font-size': '14px',
-  'tiny-mobile-exception-sub-message-color': '#999',
-  'tiny-mobile-exception-sub-message-font-size': '12px',
-  'tiny-mobile-exception-footer-color': '#999',
-  'tiny-mobile-exception-footer-font-size': '12px'
-}
+  "tiny-mobile-exception-bg-color": "#fff",
+  "tiny-mobile-exception-main-message-color": "#999",
+  "tiny-mobile-exception-main-message-font-size": "13px",
+  "tiny-mobile-exception-sub-message-color": "#999",
+  "tiny-mobile-exception-sub-message-font-size": "12px",
+  "tiny-mobile-exception-footer-color": "#999",
+  "tiny-mobile-exception-footer-font-size": "12px",
+  "tiny-mobile-exception-image-width": "200px",
+  "tiny-mobile-exception-image-height": "100px",
+  "tiny-mobile-exception-content-width": "234px",
+  "tiny-mobile-exception-button-width": "136px",
+  "tiny-mobile-exception-button-height": "42px",
+};
