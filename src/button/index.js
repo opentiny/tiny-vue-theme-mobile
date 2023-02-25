@@ -18,7 +18,6 @@ export default {
   "tiny-mobile-button-font-size-small": "12px",
   "tiny-mobile-button-height-mini": "22px",
   "tiny-mobile-button-font-size-mini": "10px",
-  "tiny-mobile-button-radius": "2px",
   "tiny-mobile-button-text-color": "#4a79fe",
   "tiny-mobile-button-text-color-hover": "#6e94fe",
   "tiny-mobile-button-text-color-active": "#4a79fe",
