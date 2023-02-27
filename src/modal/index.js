@@ -11,17 +11,17 @@
  */
 
 export default {
-  "tiny-mobile-modal-text-font-size": "14px",
-  "tiny-mobile-modal-header-font-size": "16px",
-  "tiny-mobile-modal-text-color": "#191919",
-  "tiny-mobile-modal-alert-font-size": "22px",
-  "tiny-mobile-modal-box-background-color": "#fff",
-  "tiny-mobile-modal-box-shadow": "0 8px 40px 0 rgba(0, 0, 0, 0.2)",
-  "tiny-mobile-modal-close-btn-top": "13px",
-  "tiny-mobile-modal-close-btn-scale": "scale(1, 1)",
-  "tiny-mobile-modal-close-btn-background-color-hover": "#fff",
-  "tiny-mobile-modal-btn-width": "112px",
-  "tiny-mobile-modal-single-btn-width": "144px",
-  "tiny-mobile-modal-btn-height": "36px",
-  "tiny-mobile-modal-cancel-btn-bg-color": "#f5f5f5",
-};
+  'tiny-mobile-modal-text-font-size': '14px',
+  'tiny-mobile-modal-header-font-size': '16px',
+  'tiny-mobile-modal-text-color': '#191919',
+  'tiny-mobile-modal-alert-font-size': '22px',
+  'tiny-mobile-modal-box-background-color': '#fff',
+  'tiny-mobile-modal-box-shadow': '0 8px 40px 0 rgba(0, 0, 0, 0.2)',
+  'tiny-mobile-modal-close-btn-top': '13px',
+  'tiny-mobile-modal-close-btn-scale': 'scale(1, 1)',
+  'tiny-mobile-modal-close-btn-background-color-hover': '#fff',
+  'tiny-mobile-modal-btn-width': '112px',
+  'tiny-mobile-modal-single-btn-width': '144px',
+  'tiny-mobile-modal-btn-height': '36px',
+  'tiny-mobile-modal-cancel-btn-bg-color': '#f5f5f5'
+}
