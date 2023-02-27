@@ -21,9 +21,9 @@
   position: relative;
   margin: 0;
   padding: 0;
-  height: var(--ti-mobile-button-height, 42px);
-  line-height: var(--ti-mobile-button-height, 42px);
-  font-size: var(--ti-mobile-button-font-size-default, 16px);
+  height: var(--ti-mobile-button-height);
+  line-height: var(--ti-mobile-button-height);
+  font-size: var(--ti-mobile-button-font-size-default);
   -webkit-text-size-adjust: 100%;
   border-width: 1px;
   border-style: solid;
@@ -72,27 +72,27 @@
   &.is-disabled:active,
   &.is-disabled.is-active {
     cursor: not-allowed;
-    .button-color(var(--ti-mobile-button-text-color-disabled, #dbdbdb),
-    var(--ti-mobile-button-bg-color-disabled, #e8e8e8),
-      var(--ti-mobile-button-bg-color-disabled, #e8e8e8));
+    .button-color(var(--ti-mobile-button-text-color-disabled),
+    var(--ti-mobile-button-bg-color-disabled),
+      var(--ti-mobile-button-bg-color-disabled));
   }
 
   .is-icon {
-    fill: var(--ti-mobile-button-text-color-white, #fff);
-    font-size: var(--ti-mobile-button-font-size-default, 16px);
+    fill: var(--ti-mobile-button-text-color-white);
+    font-size: var(--ti-mobile-button-font-size-default);
   }
 
   &--default {
-    .button-color(var(--ti-mobile-button-text-color-default, #191919),
-      var(--ti-mobile-button-border-color, #dbdbdb),
-      var(--ti-mobile-button-bg-color-default, #fff));
+    .button-color(var(--ti-mobile-button-text-color-default),
+      var(--ti-mobile-button-border-color),
+      var(--ti-mobile-button-bg-color-default));
 
     .is-icon {
-      fill: var(--ti-mobile-button-text-color-default, #666);
+      fill: var(--ti-mobile-button-text-color-default);
     }
 
     &.is-disabled .is-icon {
-      fill: var(--ti-mobile-button-text-color-white, #fff);
+      fill: var(--ti-mobile-button-text-color-white);
     }
   }
 
@@ -103,75 +103,75 @@
   }
 
   &--primary {
-    .button-type(var(--ti-mobile-button-text-color-white, #fff),
-      var(--ti-mobile-button-bg-color-primary, #4a79fe));
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-primary));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-bg-color-primary, #4a79fe));
+      .button-plain(var(--ti-mobile-button-bg-color-primary));
     }
   }
 
   &--success {
-    .button-type(var(--ti-mobile-button-text-color-white, #fff),
-      var(--ti-mobile-button-bg-color-success, #52c41a));
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-success));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-bg-color-success, #52c41a));
+      .button-plain(var(--ti-mobile-button-bg-color-success));
     }
   }
 
   &--warning {
-    .button-type(var(--ti-mobile-button-text-color-white, #fff),
-      var(--ti-mobile-button-bg-color-warning, #faad14));
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-warning));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-bg-color-warning, #faad14));
+      .button-plain(var(--ti-mobile-button-bg-color-warning));
     }
   }
 
   &--danger {
-    .button-type(var(--ti-mobile-button-text-color-white, #fff),
-      var(--ti-mobile-button-bg-color-danger, #f04b3d));
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-danger));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-bg-color-danger, #f04b3d));
+      .button-plain(var(--ti-mobile-button-bg-color-danger));
     }
   }
 
   &--info {
-    .button-type(var(--ti-mobile-button-text-color-white, #fff),
-      var(--ti-mobile-button-bg-color-info, #333));
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-info));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-bg-color-info, #333));
+      .button-plain(var(--ti-mobile-button-bg-color-info));
     }
   }
 
   &--text {
-    .button-text(var(--ti-mobile-button-text-color, #4a79fe),
-      var(--ti-mobile-button-text-color-hover, #6e94fe),
-      var(--ti-mobile-button-text-color-active, #4a79fe),
-      var(--ti-mobile-button-text-color-disabled, #dbdbdb));
+    .button-text(var(--ti-mobile-button-text-color),
+      var(--ti-mobile-button-text-color-hover),
+      var(--ti-mobile-button-text-color-active),
+      var(--ti-mobile-button-text-color-disabled));
   }
 
   &--secondary {
-    .button-type(var(--ti-mobile-button-text-color-default, #191919),
-       var(--ti-mobile-button-bg-color-secondary, #f5f5f5));
+    .button-type(var(--ti-mobile-button-text-color-default),
+       var(--ti-mobile-button-bg-color-secondary));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-bg-color-secondary, #f5f5f5));
+      .button-plain(var(--ti-mobile-button-bg-color-secondary));
     }
   }
 
   &--default {
-    .button-color(var(--ti-mobile-button-text-color-default, #191919),
-      var(--ti-mobile-button-text-color-disabled, #dbdbdb),
-      var(--ti-mobile-button-text-color-white, #fff));
+    .button-color(var(--ti-mobile-button-text-color-default),
+      var(--ti-mobile-button-text-color-disabled),
+      var(--ti-mobile-button-text-color-white));
 
     &.is-disabled {
-      .button-color(var(--ti-mobile-button-text-color-disabled, #dbdbdb),
-        var(--ti-mobile-button-text-color-disabled, #dbdbdb),
-        var(--ti-mobile-button-bg-color-white, #fff));
+      .button-color(var(--ti-mobile-button-text-color-disabled),
+        var(--ti-mobile-button-text-color-disabled),
+        var(--ti-mobile-button-bg-color-white));
     }
   }
 
@@ -183,24 +183,24 @@
     padding: 0 16px;
     line-height: 36px;
 
-    .button-size(var(--ti-mobile-button-height-medium, 36px),
-      var(--ti-mobile-button-font-size-medium, 14px));
+    .button-size(var(--ti-mobile-button-height-medium),
+      var(--ti-mobile-button-font-size-medium,));
   }
 
   &--small {
     padding: 0 12px;
     line-height: 28px;
 
-    .button-size(var(--ti-mobile-button-height-small, 28px),
-      var(--ti-mobile-button-font-size-small, 12px));
+    .button-size(var(--ti-mobile-button-height-small),
+      var(--ti-mobile-button-font-size-small));
   }
 
   &--mini {
     padding: 0 8px;
     line-height: 22px;
 
-    .button-size(var(--ti-mobile-button-height-mini, 22px),
-      var(--ti-mobile-button-font-size-mini, 10px));
+    .button-size(var(--ti-mobile-button-height-mini),
+      var(--ti-mobile-button-font-size-mini));
   }
 
   &.is-loading {
@@ -208,8 +208,8 @@
     pointer-events: none;
 
     svg {
-      fill: var(--ti-mobile-button-text-color-white, #fff);
-      font-size: var(--ti-mobile-button-font-size-default, 16px);
+      fill: var(--ti-mobile-button-text-color-white);
+      font-size: var(--ti-mobile-button-font-size-default);
     }
   }
 
