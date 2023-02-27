@@ -19,7 +19,6 @@ export default {
   "tiny-mobile-modal-box-shadow": "0 8px 40px 0 rgba(0, 0, 0, 0.2)",
   "tiny-mobile-modal-close-btn-top": "13px",
   "tiny-mobile-modal-close-btn-scale": "scale(1, 1)",
-  "tiny-mobile-modal-close-btn-padding-horizontal-vertical": 0,
   "tiny-mobile-modal-close-btn-background-color-hover": "#fff",
   "tiny-mobile-modal-btn-width": "112px",
   "tiny-mobile-modal-single-btn-width": "144px",
