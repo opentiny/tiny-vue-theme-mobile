@@ -17,7 +17,7 @@
 @multi-select-prefix-cls: ~'@{css-prefix}mobile-multi-select';
 
 .@{multi-select-prefix-cls} {
-  background: var(--ti-mobile-multi-select-select-bg, #fff);
+  background: var(--ti-mobile-multi-select-bg, #fff);
   width: 100%;
   border-radius: 0px 0px 16px 16px;
 
@@ -77,7 +77,7 @@
       text-overflow: ellipsis;
       word-break: break-all;
       font-size: var(--ti-mobile-multi-select-header-label-font-size, 12px);
-      color: var(--ti-mobile-multi-select-header-label-color, #595959);
+      color: var(--ti-mobile-multi-select-header-label-text-color, #595959);
       line-height: 18px;
     }
 
@@ -92,7 +92,7 @@
       transition: all linear 0.3s;
 
       svg {
-        fill: var(--ti-mobile-multi-select-svg-fill, #c2c2c2);
+        fill: var(--ti-mobile-multi-select-svg-fill-color, #c2c2c2);
         font-size: 12px;
         vertical-align: text-bottom;
       }
