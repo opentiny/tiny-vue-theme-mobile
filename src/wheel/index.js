@@ -5,9 +5,9 @@ export default {
   "tiny-mobile-wheel-wrapper-scroll-margin-top": "38px",
   "tiny-mobile-wheel-scroll-hasfooter-line-height": "36px",
   "tiny-mobile-wheel-scroll-hasfooter-height": "36px",
-  "tiny-mobile-wheel-scroll-hasfooter-color": "#595959",
+  "tiny-mobile-wheel-scroll-hasfooter-text-color": "#595959",
   "tiny-mobile-wheel-scroll-nofooter-line-height": "44px",
   "tiny-mobile-wheel-scroll-nofooter-height": "44px",
-  "tiny-mobile-wheel-scroll-nofooter-color": "#191919",
+  "tiny-mobile-wheel-scroll-nofooter-text-color": "#191919",
   "tiny-mobile-wheel-scroll-icon-font-size": "20px",
 };
