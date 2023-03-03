@@ -21,14 +21,14 @@
   position: relative;
   margin: 0;
   padding: 0;
-  height: var(--ti-mobile-button-height, 44px);
-  line-height: var(--ti-mobile-button-height, 44px);
-  font-size: var(--ti-mobile-button-font-size, 16px);
+  height: var(--ti-mobile-button-height);
+  line-height: var(--ti-mobile-button-height);
+  font-size: var(--ti-mobile-button-font-size-default);
   -webkit-text-size-adjust: 100%;
   border-width: 1px;
   border-style: solid;
   border-image: initial;
-  border-radius: var(--ti-mobile-button-radius, 2px);
+  border-radius: 2px;
   padding: 0 16px;
   transition: border 0.3s ease 0s, color 0.3s ease 0s, background 0.3s ease 0s;
   cursor: pointer;
@@ -72,31 +72,27 @@
   &.is-disabled:active,
   &.is-disabled.is-active {
     cursor: not-allowed;
-    .button-color(
-      var(--ti-mobile-button-color, #fff),
-      var(--ti-mobile-button-disabled-color, #ddd),
-      var(--ti-mobile-button-disabled-color, #ddd)
-    );
+    .button-color(var(--ti-mobile-button-text-color-disabled),
+    var(--ti-mobile-button-bg-color-disabled),
+      var(--ti-mobile-button-bg-color-disabled));
   }
 
   .is-icon {
-    fill: var(--ti-mobile-button-color, #fff);
-    font-size: var(--ti-mobile-button-font-size, 16px);
+    fill: var(--ti-mobile-button-text-color-white);
+    font-size: var(--ti-mobile-button-font-size-default);
   }
 
   &--default {
-    .button-color(
-      var(--ti-mobile-button-default-color, #666),
-      var(--ti-mobile-button-default-border-color, #ccc),
-      var(--ti-mobile-button-default-bgcolor, #fff)
-    );
+    .button-color(var(--ti-mobile-button-text-color-default),
+      var(--ti-mobile-button-border-color),
+      var(--ti-mobile-button-bg-color-default));
 
     .is-icon {
-      fill: var(--ti-mobile-button-default-color, #666);
+      fill: var(--ti-mobile-button-text-color-default);
     }
 
     &.is-disabled .is-icon {
-      fill: var(--ti-mobile-button-color, #fff);
+      fill: var(--ti-mobile-button-text-color-white);
     }
   }
 
@@ -107,92 +103,104 @@
   }
 
   &--primary {
-    .button-type(
-      var(--ti-mobile-button-color, #fff),
-      var(--ti-mobile-button-primary-color, #039be5)
-    );
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-primary));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-primary-color, #039be5));
+      .button-plain(var(--ti-mobile-button-bg-color-primary));
     }
   }
 
   &--success {
-    .button-type(
-      var(--ti-mobile-button-color, #fff),
-      var(--ti-mobile-button-success-color, #52c41a)
-    );
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-success));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-success-color, #52c41a));
+      .button-plain(var(--ti-mobile-button-bg-color-success));
     }
   }
 
   &--warning {
-    .button-type(
-      var(--ti-mobile-button-color, #fff),
-      var(--ti-mobile-button-warning-color, #faad14)
-    );
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-warning));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-warning-color, #faad14));
+      .button-plain(var(--ti-mobile-button-bg-color-warning));
     }
   }
 
   &--danger {
-    .button-type(
-      var(--ti-mobile-button-color, #fff),
-      var(--ti-mobile-button-danger-color, #f04b3d)
-    );
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-danger));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-danger-color, #f04b3d));
+      .button-plain(var(--ti-mobile-button-bg-color-danger));
     }
   }
 
   &--info {
-    .button-type(
-      var(--ti-mobile-button-color, #fff),
-      var(--ti-mobile-button-info-color, #333)
-    );
+    .button-type(var(--ti-mobile-button-text-color-white),
+      var(--ti-mobile-button-bg-color-info));
 
     &.is-plain {
-      .button-plain(var(--ti-mobile-button-info-color, #333));
+      .button-plain(var(--ti-mobile-button-bg-color-info));
     }
   }
 
   &--text {
-    .button-text(
-      var(--ti-mobile-button-text-color, #1890ff),
-      var(--ti-mobile-button-text-hover-color, #40a9ff),
-      var(--ti-mobile-button-text-active-color, #096dd9),
-      var(--ti-mobile-button-text-disabled-color, #999)
-    );
+    .button-text(var(--ti-mobile-button-text-color),
+      var(--ti-mobile-button-text-color-hover),
+      var(--ti-mobile-button-text-color-active),
+      var(--ti-mobile-button-text-color-disabled));
+  }
+
+  &--secondary {
+    .button-type(var(--ti-mobile-button-text-color-default),
+       var(--ti-mobile-button-bg-color-secondary));
+
+    &.is-plain {
+      .button-plain(var(--ti-mobile-button-bg-color-secondary));
+    }
+  }
+
+  &--default {
+    .button-color(var(--ti-mobile-button-text-color-default),
+      var(--ti-mobile-button-text-color-disabled),
+      var(--ti-mobile-button-text-color-white));
+
+    &.is-disabled {
+      .button-color(var(--ti-mobile-button-text-color-disabled),
+        var(--ti-mobile-button-text-color-disabled),
+        var(--ti-mobile-button-bg-color-white));
+    }
   }
 
   &--large {
-    width: 100%;
+    padding: 0 20px;
   }
 
   &--medium {
-    .button-size(
-      var(--ti-mobile-button-medium-height, 36px),
-      var(--ti-mobile-button-medium-font-size, 14px)
-    );
+    padding: 0 16px;
+    line-height: 36px;
+
+    .button-size(var(--ti-mobile-button-height-medium),
+      var(--ti-mobile-button-font-size-medium,));
   }
 
   &--small {
-    .button-size(
-      var(--ti-mobile-button-small-height, 30px),
-      var(--ti-mobile-button-small-font-size, 14px)
-    );
+    padding: 0 12px;
+    line-height: 28px;
+
+    .button-size(var(--ti-mobile-button-height-small),
+      var(--ti-mobile-button-font-size-small));
   }
 
   &--mini {
-    .button-size(
-      var(--ti-mobile-button-mini-height, 24px),
-      var(--ti-mobile-button-mini-font-size, 12px)
-    );
+    padding: 0 8px;
+    line-height: 22px;
+
+    .button-size(var(--ti-mobile-button-height-mini),
+      var(--ti-mobile-button-font-size-mini));
   }
 
   &.is-loading {
@@ -200,8 +208,8 @@
     pointer-events: none;
 
     svg {
-      fill: var(--ti-mobile-button-color, #fff);
-      font-size: var(--ti-mobile-button-font-size, 16px);
+      fill: var(--ti-mobile-button-text-color-white);
+      font-size: var(--ti-mobile-button-font-size-default);
     }
   }
 
