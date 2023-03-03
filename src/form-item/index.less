@@ -77,6 +77,32 @@
     box-sizing: border-box;
   }
 
+  &.is-ellipsis{
+    .@{form-item-prefix-cls}__label {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding: 13px 0px;
+      display: inline-block;
+    }
+  }
+
+  &.is-wordWarp{
+    .@{form-item-prefix-cls}__label {
+      position: static;
+      min-height: 48px;
+      align-items: flex-start;
+      padding: 13px 0px;
+      height: auto;
+    }
+    .@{css-prefix}mobile-input-form {
+      // height: auto;
+    }
+  }
+  .tiny-mobile-input-form_content{
+    flex: 1;
+  }
+
   &__content {
     line-height: 48px;
     position: relative;
@@ -90,6 +116,8 @@
     .@{button-prefix-cls} + .@{button-prefix-cls} {
       margin-left: 8px;
     }
+    display: flex;
+    border-bottom: 1px solid #ddd;
   }
 
   &__error {
