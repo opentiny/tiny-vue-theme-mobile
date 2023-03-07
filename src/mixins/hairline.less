@@ -22,13 +22,15 @@
   top: @top;
 }
 
-.hairline(@direction, @color: @border-color-base) when (@direction ='top') {
+.hairline(@direction, @color: @border-color-base, @position: relative)
+  when
+  (@direction ='top') {
   border-top: 1px solid @color;
 
   html:not([data-scale]) & {
     @media (min-resolution: 2dppx) {
       border-top: none;
-      position: relative;
+      position: @position;
 
       &::before {
         .hairline-common(@color, 0, auto, auto, 0);
@@ -47,6 +49,7 @@
 
 .hairline(@direction, @color: @border-color-base) when (@direction ='right') {
   border-right: 1px solid @color;
+  position: relative;
 
   html:not([data-scale]) & {
     @media (min-resolution: 2dppx) {
@@ -118,8 +121,8 @@
 .hairline(@direction, @color: @border-color-base, @radius: 0)
   when
   (@direction ='all') {
-    border-radius: @radius;
-    border: 1px solid @color;
+  border-radius: @radius;
+  border: 1px solid @color;
 
   html:not([data-scale]) & {
     @media (min-resolution: 2dppx) {
@@ -183,12 +186,3 @@
     display: none !important;
   }
 }
-
-
-
-
-
-
-
-
-
