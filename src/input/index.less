@@ -348,18 +348,6 @@
   line-height: 48px;
   position: relative;
 
-  &.isVertical:after {
-    content: '';
-    display: block;
-    height: 0;
-    width: 100%;
-    border-bottom: 1px solid #ddd;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: 1;
-  }
-
   &__select {
     display: flex;
     justify-content: flex-end;
@@ -398,7 +386,6 @@
   }
 
   &__input {
-    width: 65%;
     float: right;
   }
 
@@ -410,14 +397,17 @@
   }
 
   &__error {
-    position: relative;
+    width: 100%;
+    height: 36px;
+    position: absolute;
     overflow: hidden;
-    font-size: 12px;
-    line-height: 1.416;
-    color: #f36f64;
+    font-size: 13px;
+    line-height: 36px;
+    color: var(--ti-mobile-common-color-error-text-1, #e62222);
     text-overflow: ellipsis;
-    padding: 0px 16px 0 16px;
-
+    bottom: -36px;
+    background: var(--ti-mobile-input-form-error-bg, rgba(230, 34, 34, 0.04));
+    border-radius: 4px;
     &.align-right {
       text-align: right;
     }
