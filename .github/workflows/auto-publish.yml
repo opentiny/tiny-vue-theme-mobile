@@ -29,7 +29,7 @@ jobs:
           npm run release
 
       - name: Publish
-        run: npm publish opentiny-vue-theme-${{ steps.package-version.outputs.version }}.tgz
+        run: npm publish opentiny-vue-theme-mobile-${{ steps.package-version.outputs.version }}.tgz
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
