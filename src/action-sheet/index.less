@@ -17,8 +17,9 @@
 @action-sheet-prefix-cls: ~'@{css-prefix}mobile-action-sheet';
 
 .@{action-sheet-prefix-cls} {
+  position: relative;
+  height: 100%;
   &__mask {
-    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
@@ -28,23 +29,25 @@
   }
 
   &__content {
-    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: var(--ti-mobile-action-sheet-content-bgcolor, #ddd);
+    background-color: var(--ti-mobile-action-sheet-content-bg-color, #fff);
     transform: translate(0, 100%);
     backface-visibility: hidden;
     transition: transform 0.3s;
-    z-index: 5000;
-
+    z-index: 500;
+    overflow: hidden;
     &.is-toggle {
       transform: translate(0, 0);
+    }
+    &.is-not-content{
+      z-index: 2000;
     }
   }
 
   &__menu {
-    background-color: var(--ti-mobile-action-sheet-menu-bgcolor, #fff);
+    background-color: var(--ti-mobile-action-sheet-menu-bg-color, #fff);
   }
 
   &__menu.is-ellipsis &__item {
@@ -58,19 +61,21 @@
   &__item,
   &__cancel {
     position: relative;
-    padding: 10px 16px;
-    color: var(--ti-mobile-action-sheet-item-color, #333);
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 16px;
+    color: var(--ti-mobile-action-sheet-item-text-color, #333);
     font-size: var(--ti-mobile-action-sheet-item-font-size, 16px);
     text-align: center;
   }
 
   &__item {
     &:active {
-      background-color: var(--ti-mobile-action-sheet-item-active-bgcolor, #ececec);
+      background-color: var(--ti-mobile-action-sheet-item-active-bg-color, #ececec);
     }
 
     &.is-active {
-      color: var(--ti-mobile-action-sheet-item-active-color, #039be5);
+      color: var(--ti-mobile-action-sheet-item-active-text-color, #039be5);
     }
   }
 
@@ -78,13 +83,14 @@
     .hairline('top', var(--ti-mobile-action-sheet-item-border-color, #ddd));
 
     &.is-warn {
-      color: var(--ti-mobile-action-sheet-item-warn-color, #f36f64);
+      color: var(--ti-mobile-action-sheet-item-warn-text-color, #f36f64);
     }
   }
 
   &__action {
-    margin-top: 10px;
-    background-color: var(--ti-mobile-action-sheet-action-bgcolor, #fff);
+    width: 100%;
+    position: absolute;
+    background-color: var(--ti-mobile-action-sheet-action-bg-color, #fff);
   }
 }
 

@@ -77,6 +77,14 @@
     box-sizing: border-box;
   }
 
+  &__value {
+    float: right;
+
+    .tiny-mobile-input-form__input{
+      text-align: left;
+    }
+  }
+
   &__content {
     line-height: 48px;
     position: relative;
@@ -90,6 +98,21 @@
     .@{button-prefix-cls} + .@{button-prefix-cls} {
       margin-left: 8px;
     }
+  }
+
+  &__label.is-ellipsis{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: initial;
+  }
+  
+  &.is-error .is-vertical{
+    margin-bottom: 36px;
+  }
+
+  .is-vertical {
+    border-bottom: 1px solid #ddd;
   }
 
   &__error {
@@ -112,7 +135,7 @@
 
   &.is-required:not(.is-no-asterisk) {
     .@{form-item-prefix-cls}__label-wrap > .@{form-item-prefix-cls}__label:before,
-    & > .@{form-item-prefix-cls}__label:before {
+    .@{form-item-prefix-cls}__label:before {
       content: '*';
       color: var(--ti-form-item-error-color, #f5222d);
       margin-right: 4px;
