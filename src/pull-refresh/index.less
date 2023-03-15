@@ -16,24 +16,32 @@
 @pull-refresh-prefix-cls: ~'@{css-prefix}mobile-pull-refresh';
 
 .@{pull-refresh-prefix-cls} {
+  height: 100%;
   user-select: none;
-
   &__track {
     position: relative;
     height: 100%;
     transition-property: transform;
   }
 
-  &__head {
+  &__tips {
     position: absolute;
     left: 0;
     width: 100%;
     overflow: hidden;
-    color: var(--ti-mobile-pull-refresh-head-color, #969799);
+    color: var(--ti-mobile-pull-refresh-head-text-color, #969799);
     font-size: var(--ti-mobile-pull-refresh-head-font-size, 14px);
     line-height: 50px;
     text-align: center;
+  }
+
+  &__head {
     transform: translateY(-100%);
+  }
+
+  &__content {
+    overflow-y: auto;
+    height: 100%;
   }
 
   &__loading {
