@@ -30,6 +30,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Release
+        if: contains(github.ref_name, 'alpha') == false
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}

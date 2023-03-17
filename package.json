@@ -12,7 +12,6 @@
     "build:fast": "npm run build && npm run release",
     "lint": "eslint src/**/*{.vue,.js} --quiet",
     "release": "node build/release.js",
-    "prepare": "husky install",
     "commit": "git-cz"
   },
   "devDependencies": {
@@ -61,6 +60,9 @@
   },
   "resolutions": {
     "graceful-fs": "4.2.2"
+  },
+  "overrides": {
+    "graceful-fs": "^4.2.10"
   },
   "engines": {
     "node": ">= 4.0.0",
