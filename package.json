@@ -1,10 +1,26 @@
 {
   "name": "@opentiny/vue-theme-mobile",
-  "version": "3.5.0",
-  "description": "@opentiny/vue-theme-mobile",
-  "main": "index.css",
-  "author": "tinyUI for Vue Team",
+  "version": "3.6.0",
+  "description": "An enterprise-class UI component library, support both Vue.js 2 and Vue.js 3, as well as PC and mobile.",
+  "homepage": "https://opentiny.design/tiny-vue",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opentiny/tiny-vue-theme-mobile"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "frontend",
+    "component-library",
+    "components",
+    "vue-components",
+    "opentiny",
+    "renderless-components",
+    "headless-components"
+  ],
+  "author": "OpenTiny Team",
   "license": "MIT",
+  "main": "index.css",
   "scripts": {
     "clean": "rimraf dist",
     "build:theme": "gulp build --gulpfile build/gulp-dist.js",
