@@ -1,6 +1,6 @@
 {
   "name": "@opentiny/vue-theme-mobile",
-  "version": "3.5.0",
+  "version": "3.4.7",
   "description": "@opentiny/vue-theme-mobile",
   "main": "index.css",
   "author": "tinyUI for Vue Team",
@@ -12,7 +12,6 @@
     "build:fast": "npm run build && npm run release",
     "lint": "eslint src/**/*{.vue,.js} --quiet",
     "release": "node build/release.js",
-    "prepare": "husky install",
     "commit": "git-cz"
   },
   "devDependencies": {
@@ -60,7 +59,10 @@
     }
   },
   "resolutions": {
-    "graceful-fs": "4.2.2"
+    "graceful-fs": "4.2.11"
+  },
+  "overrides": {
+    "graceful-fs": "4.2.11"
   },
   "engines": {
     "node": ">= 4.0.0",
