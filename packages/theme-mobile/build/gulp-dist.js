@@ -27,7 +27,7 @@ function resolveVueTheme(importPath) {
         ]
       })
     } catch (e) {
-      throw e
+      continue
     }
   }
   return null
