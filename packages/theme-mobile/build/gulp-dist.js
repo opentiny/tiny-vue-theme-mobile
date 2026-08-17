@@ -1,6 +1,3 @@
-/**
- * 打包 src 目录到 dist 目录
- */
 const gulp = require('gulp')
 const less = require('gulp-less')
 const cssmin = require('gulp-clean-css')
@@ -44,6 +41,16 @@ const VueThemeResolver = {
           function(match, importPath) {
             const resolved = resolveVueTheme(importPath)
             if (resolved) {
+              // 关键修复：如果是 .css 文件，直接内联内容，彻底绕过 less 的路径解析
+              // pnpm store 路径中的 + 号会被 less URL 解码成空格，导致绝对路径失效
+              if (resolved.endsWith('.css')) {
+                try {
+                  return fs.readFileSync(resolved, 'utf-8')
+                } catch (e) {
+                  console.warn('Warning: Cannot read ' + resolved, e.message)
+                  return match
+                }
+              }
               return '@import "' + resolved + '"'
             }
             console.warn('Warning: Cannot resolve @opentiny/vue-theme/' + importPath)
@@ -62,7 +69,6 @@ function mergeIndexLess() {
     throw new Error(`index.less not found at ${indexLessPath}`)
   }
 
-  // 使用绝对路径匹配，避免 fast-glob 的 cwd 解析差异
   const fileList = fg.sync(path.resolve(__dirname, '../src/*/index.less'))
   const importStr = fileList
     .map((filePath) => path.relative(path.dirname(indexLessPath), filePath))
