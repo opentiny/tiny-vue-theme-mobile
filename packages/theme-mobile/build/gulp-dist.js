@@ -14,32 +14,26 @@ const dist = '../dist'
 
 function resolveVueTheme(importPath) {
   const candidates = [
-    '@opentiny/vue-theme/' + importPath,
-    '@opentiny/vue-theme/' + importPath.replace(/\.css$/, '.less')
+    '@opentiny/vue-theme/' + importPath.replace(/\.css$/, '.less'),
+    '@opentiny/vue-theme/' + importPath
   ]
   for (const c of candidates) {
     try {
-      return require.resolve(c, {
+      const resolved = require.resolve(c, {
         paths: [
           path.resolve(__dirname, '../'),
           path.resolve(__dirname, '../../')
         ]
       })
+      if (fs.existsSync(resolved)) {
+        return resolved.replace(/\\/g, '/')
+      }
     } catch (e) {
       continue
     }
   }
   return null
 }
-
-// 将所有组件下的index.less合并到src下的index.less
-const fileList = fg.sync('../src/*/index.less')
-const importStr = fileList
-  .map((filePath) => filePath.replace('../src/', './'))
-  .map((p) => `@import '${p}';`)
-  .join('\n')
-const note = fs.readFileSync('../src/index.less', { encoding: 'utf-8' }).match(/(^\/\*\*.+?\*\/)/s)[0]
-fs.writeFileSync('../src/index.less', `${note}\n\n${importStr}`)
 
 const VueThemeResolver = {
   install: function(less, pluginManager) {
@@ -50,7 +44,7 @@ const VueThemeResolver = {
           function(match, importPath) {
             const resolved = resolveVueTheme(importPath)
             if (resolved) {
-              return '@import "' + resolved.replace(/\\/g, '/') + '"'
+              return '@import "' + resolved + '"'
             }
             console.warn('Warning: Cannot resolve @opentiny/vue-theme/' + importPath)
             return match
@@ -63,35 +57,35 @@ const VueThemeResolver = {
 
 function mergeIndexLess() {
   const indexLessPath = path.resolve(__dirname, '../src/index.less')
-  
-  // 防御性检查：文件必须存在
+
   if (!fs.existsSync(indexLessPath)) {
     throw new Error(`index.less not found at ${indexLessPath}`)
   }
-  
-  const fileList = fg.sync('../src/*/index.less', { cwd: __dirname })
+
+  // 使用绝对路径匹配，避免 fast-glob 的 cwd 解析差异
+  const fileList = fg.sync(path.resolve(__dirname, '../src/*/index.less'))
   const importStr = fileList
-    .map((filePath) => filePath.replace('../src/', './'))
-    .map((p) => `@import '${p}';`)
+    .map((filePath) => path.relative(path.dirname(indexLessPath), filePath))
+    .map((p) => `@import './${p.replace(/\\/g, '/')}';`)
     .join('\n')
-  
+
   const content = fs.readFileSync(indexLessPath, { encoding: 'utf-8' })
   const match = content.match(/(^\/\*\*.+?\*\/)/s)
-  
+
   let note = ''
   if (match) {
     note = match[0]
   } else {
-    console.warn('Warning: No JSDoc comment block found at top of index.less, proceeding without header')
+    console.warn('Warning: No JSDoc comment block found at top of index.less')
   }
-  
-  fs.writeFileSync(indexLessPath, `${note}\n\n${importStr}`)
+
+  const output = `${note}\n\n${importStr}`.trim() + '\n'
+  fs.writeFileSync(indexLessPath, output)
 }
 
-gulp.task('compile', (done) => {
-  // 在 task 执行时才合并，而不是模块加载时
+gulp.task('compile', () => {
   mergeIndexLess()
-  
+
   return gulp
     .src([`${source}/**/index.less`, `${source}/index.less`])
     .pipe(
