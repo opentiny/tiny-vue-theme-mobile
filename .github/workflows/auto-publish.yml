@@ -43,13 +43,22 @@ jobs:
       - name: Run Build Components
         run: pnpm build && pnpm build:theme
 
-      - name: Publish components
+      # 原来的 Publish components 步骤
+      - name: Publish @opentiny/vue-mobile
         run: |
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
-          pnpm pub
-          pnpm pub:theme
+          npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: packages/mobile      
+
+      - name: Publish @opentiny/vue-theme-mobile
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+          npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: packages/theme-mobile/dist
 
       - name: Release
         uses: softprops/action-gh-release@v1
