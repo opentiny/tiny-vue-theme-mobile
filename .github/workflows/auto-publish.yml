@@ -6,6 +6,9 @@ on:
     tags:
       - 'v*'
 
+permissions: 
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +31,7 @@ jobs:
         run: |
           echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v6
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -37,7 +40,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm i --no-frozen-lockfile
+        run: pnpm i --frozen-lockfile
 
       - name: Run Build Components
         run: pnpm build && pnpm build:theme
@@ -47,7 +50,7 @@ jobs:
           TOKEN=$(printf '%s' "$NODE_AUTH_TOKEN" | tr -d '[:space:]')
           npm config set registry https://registry.npmjs.org/
           npm config set //registry.npmjs.org/:_authToken "$TOKEN"
-          npm publish --access=public
+          npm publish --access=public --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: packages/mobile
@@ -57,7 +60,7 @@ jobs:
           TOKEN=$(printf '%s' "$NODE_AUTH_TOKEN" | tr -d '[:space:]')
           npm config set registry https://registry.npmjs.org/
           npm config set //registry.npmjs.org/:_authToken "$TOKEN"
-          npm publish --access=public
+          npm publish --access=public --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: packages/theme-mobile/dist
