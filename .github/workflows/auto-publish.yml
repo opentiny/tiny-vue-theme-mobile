@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -45,7 +44,8 @@ jobs:
 
       - name: Publish @opentiny/vue-mobile
         run: |
-          TOKEN=$(echo "${NODE_AUTH_TOKEN}" | tr -d '\n\r')
+          TOKEN=$(printf '%s' "$NODE_AUTH_TOKEN" | tr -d '[:space:]')
+          npm config set registry https://registry.npmjs.org/
           npm config set //registry.npmjs.org/:_authToken "$TOKEN"
           npm publish --access=public
         env:
@@ -54,7 +54,8 @@ jobs:
 
       - name: Publish @opentiny/vue-theme-mobile
         run: |
-          TOKEN=$(echo "${NODE_AUTH_TOKEN}" | tr -d '\n\r')
+          TOKEN=$(printf '%s' "$NODE_AUTH_TOKEN" | tr -d '[:space:]')
+          npm config set registry https://registry.npmjs.org/
           npm config set //registry.npmjs.org/:_authToken "$TOKEN"
           npm publish --access=public
         env:
