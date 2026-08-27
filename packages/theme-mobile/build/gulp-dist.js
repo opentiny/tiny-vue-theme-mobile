@@ -15,17 +15,20 @@ const dist = '../dist'
 
 function resolveVueTheme(importPath) {
   const candidates = [
-    '@opentiny/vue-theme/' + importPath,
-    '@opentiny/vue-theme/' + importPath.replace(/\.css$/, '.less')
+    '@opentiny/vue-theme/' + importPath.replace(/\.css$/, '.less'),
+    '@opentiny/vue-theme/' + importPath
   ]
   for (const c of candidates) {
     try {
-      return require.resolve(c, {
+      const resolved = require.resolve(c, {
         paths: [
           path.resolve(__dirname, '../'),
           path.resolve(__dirname, '../../')
         ]
       })
+      if (fs.existsSync(resolved)) {
+        return resolved.replace(/\\/g, '/')
+      }
     } catch (e) {
       continue
     }
@@ -42,7 +45,6 @@ const importStr = fileList
 const note = fs.readFileSync('../src/index.less', { encoding: 'utf-8' }).match(/(^\/\*\*.+?\*\/)/s)[0]
 fs.writeFileSync('../src/index.less', `${note}\n\n${importStr}`)
 
-// Less PreProcessor：在 less 解析每个文件前，把 @opentiny/vue-theme/xxx 替换为绝对路径
 const VueThemeResolver = {
   install: function(less, pluginManager) {
     pluginManager.addPreProcessor({
@@ -52,7 +54,15 @@ const VueThemeResolver = {
           function(match, importPath) {
             const resolved = resolveVueTheme(importPath)
             if (resolved) {
-              return '@import "' + resolved.replace(/\\/g, '/') + '"'
+              if (resolved.endsWith('.css')) {
+                try {
+                  return fs.readFileSync(resolved, 'utf-8')
+                } catch (e) {
+                  console.warn('Warning: Cannot read ' + resolved, e.message)
+                  return match
+                }
+              }
+              return '@import "' + resolved + '"'
             }
             console.warn('Warning: Cannot resolve @opentiny/vue-theme/' + importPath)
             return match
@@ -63,7 +73,36 @@ const VueThemeResolver = {
   }
 }
 
+function mergeIndexLess() {
+  const indexLessPath = path.resolve(__dirname, '../src/index.less')
+
+  if (!fs.existsSync(indexLessPath)) {
+    throw new Error(`index.less not found at ${indexLessPath}`)
+  }
+
+  const fileList = fg.sync(path.resolve(__dirname, '../src/*/index.less'))
+  const importStr = fileList
+    .map((filePath) => path.relative(path.dirname(indexLessPath), filePath))
+    .map((p) => `@import './${p.replace(/\\/g, '/')}';`)
+    .join('\n')
+
+  const content = fs.readFileSync(indexLessPath, { encoding: 'utf-8' })
+  const match = content.match(/(^\/\*\*.+?\*\/)/s)
+
+  let note = ''
+  if (match) {
+    note = match[0]
+  } else {
+    console.warn('Warning: No JSDoc comment block found at top of index.less')
+  }
+
+  const output = `${note}\n\n${importStr}`.trim() + '\n'
+  fs.writeFileSync(indexLessPath, output)
+}
+
 gulp.task('compile', () => {
+  mergeIndexLess()
+
   return gulp
     .src([`${source}/**/index.less`, `${source}/index.less`])
     .pipe(
