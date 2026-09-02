@@ -68,6 +68,13 @@ jobs:
       - name: Run Build Components
         run: pnpm build && pnpm build:theme
 
+      - name: Configure npm auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+          echo "always-auth=true" >> ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       # 步骤8: 发布组件到NPM
       - name: Publish components
         run: |
