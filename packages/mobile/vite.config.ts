@@ -4,12 +4,24 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import path from 'node:path'
 import replace from '@rollup/plugin-replace'
 import dts from 'vite-plugin-dts'
+const replaceLessPlugin = () => ({
+  name: 'replace-theme-less',
+  transform(code, id) {
+    if (id.includes('components/') && id.endsWith('index.ts')) {
+      return code.replace(
+        /@opentiny\/vue-theme-mobile\/(.+)\.less/g,
+        '@opentiny/vue-theme-mobile/$1.css'
+      )
+    }
+  }
+})
 
 export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
     dts(),
+    replaceLessPlugin(),
     replace({
       '.less': '.css'
     })
