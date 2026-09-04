@@ -34,8 +34,8 @@ const newConfigJs = configJs
 
 shell.ShellString(newConfigJs).to(file)
 
-const mobileVersion = '1.0.2'
-const themeVersion = '1.0.2'
+const mobileVersion = '1.0.3'
+const themeVersion = '1.0.3'
 // const mobileVersion = '1.0.0-alpha.10'
 // const themeVersion = '1.0.0-alpha.10'
 
