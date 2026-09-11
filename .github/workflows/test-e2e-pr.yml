@@ -1,0 +1,266 @@
+name: E2E Test PR
+run-name: E2E Test PR--${{ github.event.pull_request.title }}
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  detect-changed-files:
+    name: Detect Changed Files
+    runs-on: ubuntu-latest
+    outputs:
+      changed_components: ${{ steps.find-changed-components.outputs.changed_components }}
+      manual_components: ${{ steps.parse-title.outputs.manual_components }}
+      testclis: ${{ steps.parse-test-cli.outputs.testClis }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Save PR number
+        run: echo ${{ github.event.number }} > pr-id.txt
+
+      - name: Upload PR number
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr
+          path: pr-id.txt
+          retention-days: 1
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+
+      - name: Find changed components
+        id: find-changed-components
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const changedFiles = '${{ steps.changed-files.outputs.all_changed_files }}'.split(' ').filter(file => file.trim() !== '');
+            console.log('变更的文件列表:', changedFiles);
+
+            const componentPathRules = [
+              {
+                pattern: /^packages\/mobile\/components\/([^/]+)\//,
+                group: 1,
+                type: 'mobile'
+              },
+              {
+                pattern: /^packages\/theme-mobile\/src\/([^/]+)\//,
+                group: 1,
+                type: 'theme'
+              },
+              {
+                pattern: /^packages\/demos\/app\/([^/]+)\//,
+                group: 1,
+                type: 'demo'
+              }
+            ];
+
+            // 源码/主题目录名 -> packages/demos/app 下的示例目录名
+            const demoPathMapping = {
+              'action-sheet': 'actionsheet',
+              'checkbox-group': 'checkboxgroup',
+              'dropdown-item': 'dropdownmenu',
+              'dropdown-menu': 'dropdownmenu',
+              'form-item': 'form',
+              'image-viewer': 'imageviewer',
+              'index-bar-anchor': 'index-bar',
+              'mini-picker': 'minipicker',
+              'picker-column': 'minipicker',
+              'multi-select-item': 'multi-select',
+              'nav-bar': 'navbar',
+              'radio-group': 'radio',
+              'tab-item': 'tabs',
+              'tabbar-item': 'tabbar',
+              'time-line': 'timeline',
+              'upload': 'file-upload',
+              'upload-list': 'file-upload'
+            };
+
+            const skipDirNames = new Set([
+              'svgs', 'mixins', 'base', 'common', 'tall-storage', 'popup', 'wheel', 'tooltip', 'message'
+            ]);
+
+            const components = new Set();
+            const detectedComponents = {};
+            const unmatchedFiles = [];
+
+            changedFiles.forEach(file => {
+              if (file.startsWith('.github/') ||
+                  file.includes('README') ||
+                  file.endsWith('.md') ||
+                  file.includes('theme-mobile/src/mixins/') ||
+                  file.includes('theme-mobile/src/svgs/') ||
+                  file.includes('theme-mobile/src/base/') ||
+                  file.includes('theme-mobile/src/common/')) {
+                console.log(`跳过非测试相关文件: ${file}`);
+                return;
+              }
+
+              let matched = false;
+
+              for (const rule of componentPathRules) {
+                const match = file.match(rule.pattern);
+                if (match && match[rule.group]) {
+                  matched = true;
+                  let componentName = match[rule.group];
+
+                  if (skipDirNames.has(componentName)) {
+                    console.log(`跳过通用目录: ${componentName} (${file})`);
+                    break;
+                  }
+
+                  if (demoPathMapping[componentName]) {
+                    console.log(`映射组件目录 ${componentName} -> ${demoPathMapping[componentName]}`);
+                    componentName = demoPathMapping[componentName];
+                  }
+
+                  components.add(componentName);
+
+                  if (!detectedComponents[componentName]) {
+                    detectedComponents[componentName] = {
+                      type: rule.type,
+                      files: []
+                    };
+                  }
+                  detectedComponents[componentName].files.push(file);
+                  console.log(`成功匹配组件 ${componentName}: ${file} (类型: ${rule.type})`);
+                  break;
+                }
+              }
+
+              if (!matched) {
+                unmatchedFiles.push(file);
+                console.log(`未能匹配组件: ${file}`);
+              }
+            });
+
+            console.log('检测结果详情:', JSON.stringify(detectedComponents, null, 2));
+            console.log('未匹配文件列表:', unmatchedFiles);
+
+            if (components.size > 0) {
+              const componentFilters = Array.from(components)
+                .map(comp => `"\\/app\\/${comp}\\/"`)
+                .join(' ');
+
+              console.log(`检测到变更的组件: ${Array.from(components).join(', ')}`);
+              core.setOutput('changed_components', componentFilters);
+            } else {
+              console.log('没有检测到变更的组件');
+              core.setOutput('changed_components', '');
+            }
+
+      - name: Parse Title for Manual Components
+        id: parse-title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prTitle = context.payload.pull_request.title
+            const regex = /\[(.*?)\]/
+            const matches = prTitle.match(regex)
+            if (matches && matches.length > 1 && matches[1]) {
+              let components = matches[1]
+                .split(',')
+                .map((c) => c.trim())
+                .filter((c) => /^[a-z\-\/]+$/.test(c))
+                .map((c) => `"\\/app\\/${c}\\/"`)
+              components = [...new Set(components)].join(' ')
+              core.setOutput('manual_components', components)
+            } else {
+              core.setOutput('manual_components', '')
+            }
+
+      - name: Generate warning if no components detected
+        id: warning
+        if: ${{ steps.find-changed-components.outputs.changed_components == '' && steps.parse-title.outputs.manual_components == '' }}
+        run: |
+          cat << EOF > user-tip.txt
+          **[e2e-test-warn]**
+          没有检测到要测试的组件。
+
+          系统会自动检测 PR 中变更的组件文件，或者您可以在 PR 标题中使用 [component1, component2] 格式手动指定要测试的组件。
+          例如: "fix(mobile): [alert, button] fix xxx bug"
+
+          组件名需匹配 \`packages/demos/app\` 目录下的路径名称。
+          请确保您已阅读我们的[贡献指南](https://github.com/opentiny/tiny-vue-mobile/blob/dev/CONTRIBUTING.zh-CN.md)
+          EOF
+          echo "warning=true" >> $GITHUB_OUTPUT
+
+      - name: Upload warning
+        if: ${{ steps.warning.outputs.warning }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: user-tip
+          path: user-tip.txt
+          retention-days: 1
+
+      - name: Parse Test Cli
+        id: parse-test-cli
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const testClis = '${{ vars.PLAYWRIGHT_CLIS }}' ? '${{ vars.PLAYWRIGHT_CLIS }}'.split(',') : ['pnpm test:e2e']
+            core.setOutput('testClis', JSON.stringify(testClis))
+
+  pr-test:
+    name: PR E2E Test
+    needs: detect-changed-files
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: ${{ needs.detect-changed-files.outputs.changed_components != '' || needs.detect-changed-files.outputs.manual_components != '' }}
+    strategy:
+      matrix:
+        testcli: ${{ fromJson(needs.detect-changed-files.outputs.testclis) }}
+    env:
+      TEST_COMPONENTS: ${{ needs.detect-changed-files.outputs.changed_components }} ${{ needs.detect-changed-files.outputs.manual_components }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache Playwright Installation
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml', 'package.json') }}
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm i --no-frozen-lockfile
+
+      - name: Prepare docs site
+        run: pnpm preSite
+
+      - name: Install Playwright browsers
+        run: pnpm install:browser --with-deps chromium
+
+      - name: Show detected components
+        run: |
+          echo "Testing components: $TEST_COMPONENTS"
+
+      - name: E2E Test
+        run: ${{ matrix.testcli }} ${{ env.TEST_COMPONENTS }} --retries=1 --workers=2 --pass-with-no-tests

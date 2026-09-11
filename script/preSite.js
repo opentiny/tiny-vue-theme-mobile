@@ -16,11 +16,17 @@ shell.ShellString(JSON.stringify(pkg, null, 2)).to('sites/package.json')
 const file = 'sites/vite.config.ts'
 // eslint-disable-next-line no-template-curly-in-string
 let configJs = shell.cat(file).replace('./demos/${env.VITE_APP_MODE}', '../packages/demos')
+configJs = configJs.replace(
+  'alias: {',
+  "alias: {\n        '@opentiny/vue-theme': path.resolve('node_modules/@opentiny/vue-theme'),"
+)
 // 本地开发需要添加alias
 if (mode === 'dev') {
   configJs = configJs.replace('alias: {', "alias: {\n        '@mobile-root': path.resolve('../packages/mobile'),")
 }
 const newConfigJs = configJs
+  .replace(', fixIconSrcPlugins', '')
+  .replace("...(config.mode.includes('inner') ? [] : fixIconSrcPlugins()),", '')
   .split('\n')
   .filter((row) => !row.includes('virtualTemplatePlugin'))
   .filter((row) => !row.includes('getAlias'))
@@ -33,6 +39,16 @@ const newConfigJs = configJs
   .join('\n')
 
 shell.ShellString(newConfigJs).to(file)
+
+// vue-docs 自带 PC / mobile-first 示例，Vite 会静态扫描 import.meta.glob，拖入未安装依赖
+shell.rm('-rf', 'sites/demos/pc', 'sites/demos/mobile-first', 'sites/demos/saas', 'sites/plusdocs')
+const cmpConfig = 'sites/src/views/components-doc/cmp-config.js'
+if (shell.test('-f', cmpConfig)) {
+  const patched = shell
+    .cat(cmpConfig)
+    .replace(/const mobileFirstVueFiles = isSaas \? import\.meta\.glob\(`[^`]+`\) : null/, 'const mobileFirstVueFiles = null')
+  shell.ShellString(patched).to(cmpConfig)
+}
 
 const mobileVersion = '1.0.3'
 const themeVersion = '1.0.3'

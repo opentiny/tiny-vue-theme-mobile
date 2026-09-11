@@ -36,7 +36,11 @@
     "build": "pnpm -C packages/mobile build",
     "pub": "pnpm --filter=@opentiny/vue-mobile publish --no-git-checks --access=public",
     "build:theme": "pnpm -C packages/theme-mobile build:fast",
-    "pub:theme": "pnpm --filter=\"./packages/theme-mobile/dist\" publish --access=public --no-git-checks"
+    "pub:theme": "pnpm --filter=\"./packages/theme-mobile/dist\" publish --access=public --no-git-checks",
+    "test:e2e": "playwright test --project=chromium",
+    "install:browser": "playwright install",
+    "codegen": "playwright codegen http://localhost:3101/tiny-vue-mobile",
+    "open:report": "playwright show-report"
   },
   "dependencies": {
     "@vue/composition-api": "1.7.2",
@@ -55,6 +59,7 @@
     "@opentiny/vue-mobile": "workspace:~",
     "@opentiny/vue-theme-mobile": "workspace:~",
     "@opentiny/vue-docs": "^3.25.0",
+    "@playwright/test": "catalog:",
     "@types/color": "^3.0.3",
     "@types/eslint": "^8.4.10",
     "@types/node": "^18.11.18",

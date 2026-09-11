@@ -29,3 +29,9 @@ package-lock.json
 
 sites
 pnpm-lock.yaml
+.pnpm-store/
+
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
