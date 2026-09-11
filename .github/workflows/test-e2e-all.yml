@@ -1,0 +1,65 @@
+name: E2E Test ALL
+run-name: E2E Test All  origin--${{ inputs.origin }}
+on:
+  workflow_dispatch:
+    inputs:
+      origin:
+        description: |
+          输入需要测试的域名地址，包括微服务路径，如果不输入则采用本地启动服务测试,
+          例如： `https://opentiny.github.io/tiny-vue-mobile`.
+        required: false
+        type: string
+concurrency:
+  group: ${{ github.workflow }}-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  dispatch-test-all:
+    name: Dispatch All Test
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm i --no-frozen-lockfile
+
+      - name: Prepare docs site
+        if: contains(inputs.origin, 'http') == false
+        run: pnpm preSite
+
+      - name: Install Playwright browsers
+        run: pnpm install:browser --with-deps chromium
+
+      - name: Run Playwright tests
+        env:
+          E2E_ORIGIN: ${{ contains(inputs.origin, 'http') && inputs.origin || '' }}
+        run: pnpm test:e2e --reporter=html --pass-with-no-tests
+
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report--attempt-${{ github.run_attempt }}
+          path: playwright-report
+          retention-days: 7
